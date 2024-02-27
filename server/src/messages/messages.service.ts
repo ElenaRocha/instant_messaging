@@ -4,7 +4,7 @@ import { Message } from './entities/message.entity';
 
 @Injectable()
 export class MessagesService {
-  messages: Message[] = [{ name: 'Elena', text: 'Hola' }];
+  messages: Message[] = [{ name: 'Admin', text: 'Bienvenido al grupo!' }];
   clientToUser = {};
   // TODO: guardar usuarios y mensajes en base de datos
 
@@ -17,9 +17,12 @@ export class MessagesService {
     return this.clientToUser[clientId];
   }
 
-  create(createMessageDto: CreateMessageDto) {
-    const message = { ...createMessageDto };
-    this.messages.push(message); // TODO: identificar usuario por nombre
+  create(createMessageDto: CreateMessageDto, clientId: string) {
+    const message = {
+      name: this.clientToUser[clientId],
+      text: createMessageDto.text,
+    };
+    this.messages.push(message);
     return message;
   }
 

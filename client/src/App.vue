@@ -20,6 +20,14 @@ onBeforeMount(() => {
   socket.on('message', (message) => {
     messages.value.push(message);
   });
+
+  socket.on('typing', ({name, isTyping}) => {
+    if (isTyping) {
+      typingDisplay.value = `${name} is typing...`;
+    } else {
+      typingDisplay.value = '';
+    }
+  })
 });
 
 const join = () => {
@@ -45,11 +53,26 @@ const emitTyping = () => {
 
 <template>
   <div class="chat">
-    <div class="chat-container">
+    <div v-if="!joined">
+      <form @submit.prevent="join">
+        <label>Nombre de usuario:</label>
+        <input v-model="name"/>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+    <div class="chat-container" v-else>
       <div class="messages-container">
         <div v-for="message in messages" :key="message.id">
           [{{ message.name }}]: {{ message.text }}
         </div>
+      </div>
+      <div v-if="typingDisplay">{{ typingDisplay }}</div>
+      <hr/>
+      <div class="message-input">
+        <form @submit.prevent="sendMessage">
+          <input v-model="messageText" @input="emitTyping"/>
+          <button type="submit">Enviar</button>
+        </form>
       </div>
     </div>
   </div>
@@ -57,4 +80,16 @@ const emitTyping = () => {
 
 <style scoped>
 @import './assets/base.css';
+.chat {
+  padding: 20px;
+  height: 100vh;
+}
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.messages-container {
+  flex: 1;
+}
 </style>
