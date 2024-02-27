@@ -24,4 +24,14 @@ export class MessagesGateway {
   findAll() {
     return this.messagesService.findAll();
   }
+
+  @SubscribeMessage('join')
+  joinRoom() {
+    // TODO
+  }
+
+  @SubscribeMessage('typing')
+  async typing() {
+    // TODO
+  }
 }
