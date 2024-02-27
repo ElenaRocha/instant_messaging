@@ -13,7 +13,6 @@ const typingDisplay = ref('');
 
 onBeforeMount(() => {
   socket.emit('findAllMessages', {}, (response) => {
-    console.log(typeof response)
     messages.value = response;
   });
 
@@ -63,6 +62,7 @@ const emitTyping = () => {
     <div class="chat-container" v-else>
       <div class="messages-container">
         <div v-for="message in messages" :key="message.id">
+          <!--por qué me pide arriba una clave?-->
           [{{ message.name }}]: {{ message.text }}
         </div>
       </div>
@@ -80,16 +80,4 @@ const emitTyping = () => {
 
 <style scoped>
 @import './assets/base.css';
-.chat {
-  padding: 20px;
-  height: 100vh;
-}
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.messages-container {
-  flex: 1;
-}
 </style>

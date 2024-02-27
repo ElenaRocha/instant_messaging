@@ -30,7 +30,7 @@ export class MessagesGateway {
       client.id,
     );
 
-    this.server.emit('mesage', message);
+    this.server.emit('message', message);
 
     return message;
   }
@@ -57,4 +57,6 @@ export class MessagesGateway {
     const name = await this.messagesService.getClientName(client.id);
     client.broadcast.emit('typing', { name, isTyping });
   }
+
+  // TODO: borrar y editar mensajes
 }
